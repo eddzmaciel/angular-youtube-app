@@ -10,20 +10,24 @@ export class YoutubeService {
 
   private youtubeUrl: string = 'https://www.googleapis.com/youtube/v3';
   private apiKey: string = 'AIzaSyAixRxmM8rdV23KsDxB4KM_Xa8XI4OgVaM';
-  private channelId: string = 'UCiBwOVBljEjcsLUjwI274Xw';
+  private playlistId: string = 'UUuaPTYj15JSkETGnEseaFFg';
   private nextPageToken: string = '';
+
+
+  private channelID: string = 'UUuaPTYj15JSkETGnEseaFFg'
 
   constructor(private http: HttpClient) {
 
   }
 
   getVideos() {
-    const url = `${this.youtubeUrl}/playlists`;
+    const url = `${this.youtubeUrl}/playlistItems`;
     const params = new HttpParams()
       .set('part', 'snippet')
+      .set('maxResults', '10')
+      .set('playlistId', this.playlistId)
       .set('key', this.apiKey)
-      .set('channelId', this.channelId)
-      .set('maxResults', '10');
+      .set('pageToken', this.nextPageToken);
 
     return this.http.get<YoutubeResponse>(url, { params }).pipe(
       map(resp => {
